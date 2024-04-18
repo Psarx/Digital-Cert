@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors'); // Import cors middleware
 require('dotenv').config();
 const authRouter = require('./routes/auth.js');
-
+const router = require('./routes/authCells.js');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DB = process.env.DB;
@@ -24,7 +24,8 @@ app.use(cors());
 app.use(express.json());
 
 // Mount authentication routes
-app.use(authRouter); // Update the mount path
+app.use(authRouter);
+app.use(router);  // Update the mount path
 
 // Start the server
 app.listen(PORT, () => {
