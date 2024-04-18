@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cell Coordinator Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between; /* Align items at the ends */
+            align-items: center; /* Vertically center items */
+        }
+        .logout-button {
+            background-color: #f00;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .logout-button:hover {
+            background-color: #d00;
+        }
+        main {
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .events-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .events-list li {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cell Coordinator Dashboard</h1>
+        <div class="logout-button-container">
+            <button class="logout-button">Logout</button>
+        </div>
+    </header>
+    <main>
+        <h2>Latest Events</h2>
+        <ul class="events-list">
+            <!-- Replace the placeholder list items with actual event details -->
+            <li>Event 1: Description of Event 1</li>
+            <li>Event 2: Description of Event 2</li>
+            <li>Event 3: Description of Event 3</li>
+            <li>Event 4: Description of Event 4</li>
+            <li>Event 5: Description of Event 5</li>
+        </ul>
+    </main>
+
+    <script>
+        // Add event listener to logout button
+        document.querySelector('.logout-button').addEventListener('click', () => {
+            // Perform logout action here (e.g., redirect to login page)
+            alert('Logged out successfully!');
+            // Example: window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

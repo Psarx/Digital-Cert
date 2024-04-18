@@ -1,9 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // Import cors middleware
+const cors = require('cors');
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 const authRouter = require('./routes/auth.js');
 const router = require('./routes/authCells.js');
+const uploadRoutes = require('./routes/upload.js');
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DB = process.env.DB;
@@ -23,9 +27,13 @@ app.use(cors());
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
+ // Change the destination folder as needed
+ app.use(uploadRoutes);
+// Endpoint for uploading CSV files
+
 // Mount authentication routes
 app.use(authRouter);
-app.use(router);  // Update the mount path
+app.use(router);
 
 // Start the server
 app.listen(PORT, () => {

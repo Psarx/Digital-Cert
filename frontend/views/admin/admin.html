@@ -3,55 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-    <!-- Include CSS stylesheets and JavaScript libraries -->
-    <link rel="stylesheet" href="styles.css">
-    <!-- Include any additional stylesheets or libraries -->
+    <title>Admin Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between; /* Align items at the ends */
+            align-items: center; /* Vertically center items */
+        }
+        .logout-button {
+            background-color: #f00;
+            color: #fff;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .logout-button:hover {
+            background-color: #d00;
+        }
+        nav {
+            background-color: #555;
+            padding: 10px 0;
+        }
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        main {
+            padding: 20px;
+        }
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .menu {
+            text-align: center;
+        }
+        .menu ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .menu ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        .menu ul li a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Admin Panel</h1>
+        <h1>Welcome Admin</h1>
+        <div class="logout-button-container">
+            <button class="logout-button">Logout</button>
+        </div>
     </header>
     <nav>
-        <!-- Navigation menu -->
         <ul>
             <li><a href="user-management.html">User Management</a></li>
-            <li><a href="#configuration-settings">Configuration Settings</a></li>
-            <li><a href="#monitoring-dashboard">Monitoring Dashboard</a></li>
+            <li><a href="cells.html">Cell Management</a></li>
         </ul>
     </nav>
     <main>
-        <!-- Placeholder for dynamic content -->
-        <!-- user-management.html -->
-
-        <div id="user-management">
-            <h2>User Management</h2>
-            <!-- User management form or table -->
-            <!-- Include form elements for creating, editing, and deleting user accounts -->
+        <div class="welcome-message">
+            <h2>Welcome, Admin!</h2>
         </div>
-        <!-- configuration-settings.html -->
-
-        <div id="configuration-settings">
-            <h2>cells</h2>
-            <!-- Configuration settings form -->
-            <!-- Include form elements for configuring certificate generation, verification service, etc. -->
+        <div class="menu">
+            <h2>Menu</h2>
+            <ul>
+                <li><a href="#">Option 1</a></li>
+                <li><a href="#">Option 2</a></li>
+                <li><a href="#">Option 3</a></li>
+                <li><a href="#">Option 4</a></li>
+            </ul>
         </div>
-        <!-- monitoring-dashboard.html -->
-
-        <div id="monitoring-dashboard">
-            <h2>Monitoring Dashboard</h2>
-            <!-- Real-time insights and analytics -->
-            <!-- Include charts, graphs, or tables to display certificate issuance, verification requests, system performance, etc. -->
-        </div>
-
-  
     </main>
-    <footer>
-        <p>&copy; 2024 Admin Panel. All rights reserved.</p>
-    </footer>
 
-    <!-- Include JavaScript files -->
-    <script src="jquery.min.js"></script>
-    <script src="admin.js"></script> <!-- Your custom admin JavaScript -->
+    <script>
+        // Add event listener to logout button
+        document.querySelector('.logout-button').addEventListener('click', () => {
+            // Perform logout action here (e.g., redirect to login page)
+            alert('Logged out successfully!');
+            // Example: window.location.href = 'login.html';
+        });
+    </script>
 </body>
 </html>
