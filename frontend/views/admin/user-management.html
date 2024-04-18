@@ -38,6 +38,7 @@
     </style>
 </head>
 <body>
+    <button class="button" onclick="goToAdminPage()">Home</button>
     <!-- User Management Table -->
     <h2>User Management</h2>
     <table id="userTable">
@@ -68,6 +69,9 @@
 
     <!-- JavaScript code -->
     <script>
+        function goToAdminPage() {
+            window.location.href = 'admin.html';
+        }
         async function fetchUsers() {
             try {
                 const response = await fetch('http://localhost:3000/api/users');

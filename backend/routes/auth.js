@@ -16,25 +16,65 @@ authRouter.get('/api/users', async (req, res) => {
     }
 });
 
-authRouter.post("/api/login", async (req, res) => {
+authRouter.post("/api/adminlogin", async (req, res) => {
     try {
-      const { username, password, role } = req.body;
+        // Extracting username, password, and role from request body
+        const { username, password, role } = req.body;
 
-      const user = await User.findOne({ username, role });
-      if (!user) {
-        return res.status(400).json({ message: "User not found" });
-      }
-      if (password !== user.password) {
-        return res.status(400).json({ message: "Invalid credentials" });
-      }
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      res.json({ token, ...user._doc });
+        // Finding user in the database based on username and role
+        const user = await User.findOne({ username, role });
+
+        // If no user is found, return status 400 with a message
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        // If the provided password does not match the user's password, return status 400 with a message
+        if (password !== user.password) {
+            return res.status(400).json({ message: "Invalid credentials" });
+        }
+
+        // Generating a JWT token with the user's ID
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+        // Returning the token and user object (excluding password) as JSON
+        res.json({ token, ...user._doc });
     }
     catch (err) {
-      res.status(500).json({ message: err.message });
+        // If an error occurs, return status 500 with an error message
+        res.status(500).json({ message: err.message });
     }
 });
 
+authRouter.post("/api/cellcoordlogin", async (req, res) => {
+    try {
+        // Extracting username, password, and role from request body
+        const { username, password } = req.body;
+
+        // Finding user in the database based on username and role
+        const user = await User.findOne({ username });
+
+        // If no user is found, return status 400 with a message
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        // If the provided password does not match the user's password, return status 400 with a message
+        if (password !== user.password) {
+            return res.status(400).json({ message: "Invalid credentials" });
+        }
+
+        // Generating a JWT token with the user's ID
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+        // Returning the token and user object (excluding password) as JSON
+        res.json({ token, ...user._doc });
+    }
+    catch (err) {
+        // If an error occurs, return status 500 with an error message
+        res.status(500).json({ message: err.message });
+    }
+});
 
 authRouter.post('/api/users', async (req, res) => {
     try {

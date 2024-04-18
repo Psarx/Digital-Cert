@@ -7,50 +7,73 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ff7f50; /* Orange background */
+            color: white; /* White text */
+            transition: background-color 0.3s ease; /* Background color transition */
         }
         .login-container {
-            max-width: 400px;
-            margin: 0 auto;
+            width: 400px;
             padding: 20px;
-            border: 1px solid #ccc;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff; /* White container background */
+            transition: box-shadow 0.3s ease; /* Box shadow transition */
         }
         h2 {
             text-align: center;
+            color: #f57c00; /* Orange text */
+            transition: color 0.3s ease; /* Text color transition */
         }
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            color: #333; /* Dark text */
+            transition: color 0.3s ease; /* Text color transition */
         }
         input[type="text"],
-        input[type="password"],
-        select {
+        input[type="password"] {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+            transition: border-color 0.3s ease; /* Border color transition */
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #f57c00; /* Orange border color on focus */
         }
         input[type="submit"] {
-            background-color: #4CAF50;
+            background-color: #f57c00; /* Orange button */
             color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
+            transition: background-color 0.3s ease; /* Button animation */
         }
         input[type="submit"]:hover {
-            background-color: #45a049;
+            background-color: #ff9800; /* Darker orange on hover */
+        }
+        #errorMessage {
+            color: red;
+            display: none;
+            text-align: center;
+            transition: color 0.3s ease; /* Text color transition */
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+        <h2>Welcome to Digital Certificate Management Portal of FISAT</h2>
         <form id="loginForm">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
@@ -58,41 +81,50 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
 
-            <label for="role">Role:</label>
-            <select id="role" name="role">
-                <option value="admin">Admin</option>
-                <option value="cell">Cell</option>
-                <option value="cell_coordinator">Cell Coordinator</option>
-            </select>
-
             <input type="submit" value="Login">
-            <p id="errorMessage" style="color: red; display: none;"></p>
+            <p id="errorMessage"></p>
         </form>
     </div>
 
     <script>
+        // Function to clear the error message
+        function clearErrorMessage() {
+            console.log('Clearing error message...');
+            document.getElementById('errorMessage').innerText = '';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+    
+        // Event listeners to clear error message on form interaction
+        document.getElementById('username').addEventListener('input', clearErrorMessage);
+        document.getElementById('password').addEventListener('input', clearErrorMessage);
+    
         document.getElementById('loginForm').addEventListener('submit', async (event) => {
             event.preventDefault(); // Prevent default form submission
-
+    
             const formData = new FormData(event.target); // Get form data
             const formDataObject = Object.fromEntries(formData.entries()); // Convert form data to object
-
+            formDataObject.role = 'admin'; // Set role as admin
+    
             try {
-                const response = await fetch('http://localhost:3000/api/login', {
+                const response = await fetch('http://localhost:3000/api/adminlogin', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(formDataObject) // Convert object to JSON string
                 });
-
+    
                 if (!response.ok) {
                     throw new Error('Failed to login');
                 }
-
+    
                 const data = await response.json();
-                // Redirect to admin.html or perform other actions upon successful login
-                window.location.href = 'admin/admin.html';
+                // Redirect based on role
+                if (data.role === 'admin') {
+                    window.location.href = 'admin/admin.html';
+                } else if (data.role === 'cell coordinator') {
+                    window.location.href = 'cellcoord/cellcoord.html';
+                }
             } catch (error) {
                 console.error(error);
                 // Display error message to the user
