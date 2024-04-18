@@ -4,35 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload CSV File</title>
+    <link rel="stylesheet" type="text/css" href="upload.css">
 </head>
 <body>
-    <h1>Upload CSV File</h1>
-    <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" name="csvFile" accept=".csv" required>
-        <button type="submit">Upload</button>
-    </form>
-    <div id="message"></div>
+    <div class="card">
+        <h1>Upload CSV File</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" name="csvFile" id="fileInput" accept=".csv" required>
+            <label for="fileInput" class="custom-file-input">Choose File</label>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="message"></div>
+    </div>
 
-    <script>
-        document.getElementById('uploadForm').addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            try {
-                const response = await fetch('http://localhost:3000/upload', {
-                    method: 'POST',
-                    body: formData
-                });
-                if (response.ok) {
-                    const message = await response.text();
-                    document.getElementById('message').textContent = 'Upload successful: ' + message;
-                } else {
-                    throw new Error('Failed to upload file');
-                }
-            } catch (error) {
-                console.error(error);
-                document.getElementById('message').textContent = 'Error: ' + error.message;
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
