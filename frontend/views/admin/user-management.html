@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- User Management Table -->
+    <h2>User Management</h2>
+    <table id="userTable">
+        <!-- Table headers -->
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+        <!-- Table rows will be populated dynamically -->
+    </table>
+
+    <!-- Add New User Form -->
+    <h2>Add New User</h2>
+    <form id="addUserForm">
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="role">Role:</label><br>
+        <select id="role" name="role">
+            <option value="Admin">Admin</option>
+            <option value="Cells">Cells</option>
+            <option value="Cell Coordinator">Cell Coordinator</option>
+        </select><br><br>
+        <button class="button" type="submit">Add User</button>
+    </form>
+
+    <!-- JavaScript code -->
+    <script>
+        // Function to fetch users from the backend and populate the table
+        async function fetchUsers() {
+            try {
+                const response = await fetch('http://localhost:3000/api/users');
+                const data = await response.json();
+
+                const userTable = document.getElementById('userTable');
+                userTable.innerHTML = ''; // Clear existing table content
+
+                // Populate table rows with user data
+                data.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${user.username}</td>
+                        <td>${user.role}</td>
+                        <td>
+                            <button class="button" onclick="editUser('${user._id}', '${user.username}', '${user.role}')">Edit</button>
+                            <button class="button" onclick="deleteUser('${user._id}')">Delete</button>
+                        </td>
+                    `;
+                    userTable.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        }
+
+        // Function to handle editing user
+        function editUser(id, username, role) {
+            const newUsername = prompt('Enter new username:', username);
+            const newRole = prompt('Enter new role:', role);
+            if (newUsername && newRole) {
+                updateUser(id, newUsername, newRole);
+            }
+        }
+
+        // Function to send PUT request to update user information
+        async function updateUser(id, username, role) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/users/:${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, role })
+                });
+
+                if (response.ok) {
+                    alert('User updated successfully');
+                    fetchUsers(); // Refresh the user table
+                } else {
+                    const errorMessage = await response.text();
+                    throw new Error(errorMessage);
+                }
+            } catch (error) {
+                console.error('Error updating user:', error);
+                alert('Failed to update user. Please try again.');
+            }
+        }
+
+        // Function to handle user deletion 
+        async function deleteUser(id) {
+            // Implement user deletion logic if needed
+            // This function is not included in the provided HTML code
+            alert(`Deleting user with ID: ${id}`);
+        }
+
+        // Event listener for form submission to add new user
+        document.getElementById('addUserForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const role = document.getElementById('role').value;
+            // Add logic to add new user (not provided in the HTML code)
+            alert(`Adding user: ${username} with role: ${role}`);
+        });
+
+        // Fetch users when the page loads
+        window.onload = fetchUsers;
+    </script>
+</body>
+</html>
