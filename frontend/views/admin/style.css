@@ -1,0 +1,83 @@
+/* Apply styles to the header */
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Style the navigation menu */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+nav ul li a:hover {
+    background-color: #ddd;
+}
+
+/* Style the main content */
+main {
+    padding: 20px;
+}
+
+/* Style the forms */
+form {
+    margin-bottom: 20px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"] {
+    width: 200px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+form button[type="submit"] {
+    padding: 8px 15px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form button[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Style the table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Style the footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cell Management</title>
     <!-- Include CSS stylesheets and JavaScript libraries -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <!-- Include any additional stylesheets or libraries -->
 </head>
 <body>
@@ -24,13 +24,31 @@
     <main>
         <div id="cell-management">
             <h2>Cell Management</h2>
+            <form id="add-cell-form">
+                <label for="cell-id">Cell ID:</label>
+                <input type="text" id="cell-id" name="cell-id" required><br>
+                <label for="cell-name">Cell Name:</label>
+                <input type="text" id="cell-name" name="cell-name" required><br>
+                <button type="submit">Add Cell</button>
+            </form>
+
+            <form id="add-cell-coordinator-form">
+                <label for="coordinator-id">Coordinator ID:</label>
+                <input type="text" id="coordinator-id" name="coordinator-id" required><br>
+                <label for="coordinator-name">Coordinator Name:</label>
+                <input type="text" id="coordinator-name" name="coordinator-name" required><br>
+                <label for="cell-id-select">Cell:</label>
+                <select id="cell-id-select" name="cell-id">
+                    <!-- Options will be dynamically populated via JavaScript -->
+                </select><br>
+                <button type="submit">Add Cell Coordinator</button>
+            </form>
+    
             <table id="cell-table">
                 <thead>
                     <tr>
                         <th>Cell ID</th>
                         <th>Name</th>
-                        <th>Cell Coordinator ID</th>
-                        <th>Cell Coordinator Name</th>
                     </tr>
                 </thead>
                 <tbody id="cell-table-body">
@@ -42,9 +60,9 @@
     <footer>
         <p>&copy; 2024 Admin Panel. All rights reserved.</p>
     </footer>
-
+    
     <!-- Include JavaScript files -->
-    <script src="jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="admin.js"></script> <!-- Your custom admin JavaScript -->
 </body>
 </html>

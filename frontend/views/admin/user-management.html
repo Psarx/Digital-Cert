@@ -55,6 +55,8 @@
     <form id="addUserForm">
         <label for="username">Username:</label><br>
         <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
         <label for="role">Role:</label><br>
         <select id="role" name="role">
             <option value="Admin">Admin</option>
@@ -66,7 +68,6 @@
 
     <!-- JavaScript code -->
     <script>
-        // Function to fetch users from the backend and populate the table
         async function fetchUsers() {
             try {
                 const response = await fetch('http://localhost:3000/api/users');
@@ -93,57 +94,49 @@
             }
         }
 
-        // Function to handle editing user
-        function editUser(id, username, role) {
-            const newUsername = prompt('Enter new username:', username);
-            const newRole = prompt('Enter new role:', role);
-            if (newUsername && newRole) {
-                updateUser(id, newUsername, newRole);
-            }
-        }
+        // Your existing JavaScript code for form submission and user management
 
-        // Function to send PUT request to update user information
-        async function updateUser(id, username, role) {
+        // Fetch users when the page loads
+        window.onload = fetchUsers;
+        // Function to handle form submission to add new user
+        document.getElementById('addUserForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+
+            // Create a data object with the user details
+            const data = {
+                username: username,
+                password: password,
+                role: role
+            };
+
+            // Send a POST request to the backend API endpoint to add the user
             try {
-                const response = await fetch(`http://localhost:3000/api/users/:${id}`, {
-                    method: 'PUT',
+                const response = await fetch('http://localhost:3000/api/users', {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ username, role })
+                    body: JSON.stringify(data)
                 });
 
                 if (response.ok) {
-                    alert('User updated successfully');
-                    fetchUsers(); // Refresh the user table
+                    alert('User added successfully');
+                    // Refresh the user table after adding the user
+                    fetchUsers();
                 } else {
                     const errorMessage = await response.text();
                     throw new Error(errorMessage);
                 }
             } catch (error) {
-                console.error('Error updating user:', error);
-                alert('Failed to update user. Please try again.');
+                console.error('Error adding user:', error);
+                alert('Failed to add user. Please try again.');
             }
-        }
-
-        // Function to handle user deletion 
-        async function deleteUser(id) {
-            // Implement user deletion logic if needed
-            // This function is not included in the provided HTML code
-            alert(`Deleting user with ID: ${id}`);
-        }
-
-        // Event listener for form submission to add new user
-        document.getElementById('addUserForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const role = document.getElementById('role').value;
-            // Add logic to add new user (not provided in the HTML code)
-            alert(`Adding user: ${username} with role: ${role}`);
         });
 
-        // Fetch users when the page loads
-        window.onload = fetchUsers;
+        // Your existing JavaScript code for fetching and managing users
     </script>
 </body>
 </html>

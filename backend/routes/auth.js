@@ -1,6 +1,7 @@
 
 const express = require("express");
 const User = require("../models/user");
+const CellCoordinator = require("../models/cellCoordinator"); 
 const jwt = require('jsonwebtoken'); // Import the jsonwebtoken module
 const authRouter = express.Router();
 
@@ -39,24 +40,36 @@ authRouter.post('/api/users', async (req, res) => {
     try {
         // Extract data from request body
         const { username, password, role } = req.body;
+
+        // Check if the role is "cell coordinator"
+        if (role === "cell coordinator") {
+            // Find if the username exists in the cellCoordinator database
+            const existingCoordinator = await CellCoordinator.findOne({ coordinatorName: username });
+            if (!existingCoordinator) {
+                return res.status(400).json({ message: "Username does not exist in cell coordinators" });
+            }
+        }
+
+        // Check if the username exists in the user database
         const existingUser = await User.findOne({ username });
         if (existingUser) {
-          return res.status(400).json({ message: "Username already exists" });
+            return res.status(400).json({ message: "Username already exists" });
         }
     
         // Create a new user record
         const newUser = new User({
-          username,
-          password, 
-          role
+            username,
+            password, 
+            role
         });
         await newUser.save();
     
         res.status(201).json({ message: "User created successfully" });
-      } catch (err) {
+    } catch (err) {
         res.status(500).json({ message: err.message });
-      }
+    }
 });
+
 
 authRouter.put('/api/users/:id', async (req, res) => {
     const userId = req.params.id; // Extract user ID from request parameters

@@ -7,8 +7,8 @@ const router = express.Router();
 // Route to fetch existing cells
 router.get("/api/cells", async (req, res) => {
     try {
-        const cells = await Cell.find(); // Retrieve all cells from the database
-        res.json(cells); // Send the list of cells as a JSON response
+        const cells = await Cell.find();
+        res.json(cells);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -37,12 +37,18 @@ router.post("/api/cells", async (req, res) => {
 // Route to add a new cell coordinator
 router.post("/api/cell-coordinators", async (req, res) => {
     try {
-        const { cellId, coordinatorId, coordinatorName } = req.body; // Extract data from request body
+        const { cellName, coordinatorId, coordinatorName } = req.body; // Extract data from request body
 
+        // Find the cell with the given name
+        const cell = await Cell.findOne({ name: cellName });
+        if (!cell) {
+            return res.status(404).json({ message: 'Cell not found' });
+        }
 
-        // Create a new cell coordinator instance
+        // Create a new cell coordinator instance with the found cellId
         const newCellCoordinator = new CellCoordinator({
-            cellId, // Manually set the ObjectId of the cell
+            cellId: cell._id,
+            cellName,
             coordinatorId,
             coordinatorName
         });
@@ -56,5 +62,6 @@ router.post("/api/cell-coordinators", async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
 
 module.exports = router;
